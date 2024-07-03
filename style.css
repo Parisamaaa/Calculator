@@ -1,12 +1,18 @@
 
 .row.calculator{
-    margin-top: 40px;
+    margin-top: 400px;
+}
+
+.space-top{
+    margin-top: 20%;
 }
 
 
 .calculator{
 margin-top: 0%;
 background-color: gray;
+border-radius: 20px;
+padding: 10px;
 }
 
 /* form.calculator {
@@ -24,7 +30,7 @@ background-color: gray;
     font-size: 20px;
     /* columns: re; */
     border-radius: 10px;
-margin: 5px;
+    margin: 5px;
 
 }
 
