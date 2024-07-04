@@ -9,50 +9,40 @@
 
 
 .calculator{
-margin-top: 0%;
-background-color: gray;
+background-color: #36454F;
 border-radius: 20px;
+width: 300px !important;
 padding: 10px;
+font-family: "Orbitron", sans-serif;
+font-size: 24px;
+font-weight: 400;
+font-style: normal;
 }
 
-/* form.calculator {
-    width: 60px;
-    height: 60px;
-   
-} */
-
-.calculator input{
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-    background: transparent;
-    box-shadow: 0 0.11rem 1rem white;
-    font-size: 20px;
-    /* columns: re; */
+.button{
+    width: 60px !important;
+    background-color: #D3D3D3 ;
+    padding: 5px 5px;
+    /* font-size: 28px; */
     border-radius: 10px;
     margin: 5px;
-
+    /* border-color: ; */
 }
 
 
-form .display{
-    display: flex;
-
-
-}
-
-form .display input{
-text-align: right;
-box-shadow: none;
-border: none;
-width: 240px;
-}
-
-
-form input.equal{
-    width: 115px;
+.screen{
+    height: 60px !important;
+    font-size: 28px;
+    color: aliceblue;
+    justify-content: center;
+    align-items: center;
 }
 
 .operator{
-    color: aqua;
+    background-color: orange;
+}
+
+.button:hover{
+    background: #FFDEAD;
+    color: #8B4000;
 }
