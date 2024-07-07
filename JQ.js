@@ -8,9 +8,10 @@ $(document).ready(function(){
     var prevEntry=0;
     var operation=null;
     var currentEntry= '0';
-    var temp=0;
+    var temp=0;  //holds the length of the first entry
     // updateScreen(result);
     var numberOfOperation=0;
+    var secondEntry = '';
 
   
 
@@ -19,26 +20,50 @@ $(document).ready(function(){
         console.log(buttonPressed)
 
     if(buttonPressed === "AC"){
-         result=0;
+        result=0;
         prevEntry=0;
         operation=null;
         currentEntry= '0';
         temp=0;
+        numberOfOperation = 0;
+        secondEntry="";
     }
     else if(buttonPressed === "BA"){
-       currentEntry = currentEntry.substring(0,currentEntry.length-1)
+        debugger
+        //its operator
+        if(! noPreviousOperator(currentEntry)){
+            numberOfOperation-=1;
+            operation = '';
+            if(numberOfOperation<=1) secondEntry='';
+        }
+        
+        currentEntry = currentEntry.substring(0,currentEntry.length-1)
+        if(numberOfOperation===1) secondEntry= second(temp,currentEntry);
+        else if(numberOfOperation===0) secondEntry=== 0;
+
+        if(currentEntry===""){
+            result=0;
+            prevEntry=0;
+            operation=null;
+            currentEntry= '0';
+            temp=0;
+            numberOfOperation = 0;
+            secondEntry="";
+        }
     }
     else if(isNumber(buttonPressed)){
-        if (currentEntry==='0')
+        
+         if (currentEntry==='0')
             currentEntry = buttonPressed;
         else{ 
             if (withinRange(currentEntry))
             currentEntry = currentEntry+buttonPressed
         };
+        if(numberOfOperation>=1){
+            secondEntry = second(temp,currentEntry)
+        }
     }
     else if(isOperator(buttonPressed)){
-        
-        console.log("current entry in is operator :" , currentEntry)
         if(noPreviousOperator(currentEntry)){
            
             numberOfOperation+= 1;
@@ -50,12 +75,13 @@ $(document).ready(function(){
                 numberOfOperation = 1;
             }
 
-            
+
                 prevEntry = parseFloat(currentEntry);
                 operation=buttonPressed;
                 // currentEntry='';
                 temp= currentEntry.length;
                 currentEntry = currentEntry+operation;
+            
         }
     }
     else if(buttonPressed === "%"){
@@ -71,16 +97,29 @@ $(document).ready(function(){
 
     // numer (operator = NAN)   fix this
     else if(buttonPressed === "="){ 
-        if(operation === null || !noPreviousOperator)
-            alert("no possible")
-        else {
-            console.log(currentEntry.length , temp)
+        debugger
+        console.log("secondEntry: ",secondEntry)
         
+        if(operation === null )
+            alert("not possible")
+
+        //check if (operator)=
+        else if(!noPreviousOperator(currentEntry)){
+            secondEntry = prevEntry;
+            currentEntry = operate(prevEntry,secondEntry,operation).toString();
+            numberOfOperation-=numberOfOperation;
+            prevEntry=parseFloat(currentEntry);
+        }
+        //check ()=
+        else if(operate != null && numberOfOperation === 0){    
+            var intCurrentEntry= parseInt(currentEntry);
+            prevEntry = operate(prevEntry,secondEntry,operation);
+            currentEntry = prevEntry.toString();
+        }
+        else {
             currentEntry = evaluate(prevEntry,currentEntry,temp,operation)
-            console.log("after :" , currentEntry)
-            // currentEntry = currentEntry.substring(0,10);
-            console.log("after,after :" , currentEntry)
             numberOfOperation = 0;
+            prevEntry = parseFloat(currentEntry);
         }
     }
     updateScreen(currentEntry);
@@ -99,6 +138,7 @@ isOperator = function(value){
 }
 
 operate = function (a, b,operator){
+    
     b = parseFloat(b);
     if(operator === '/') return a/b;
     if(operator === '*') return a*b;
@@ -113,6 +153,7 @@ updateScreen = function(displayVal){
     $('.screen').html(displayVal.substring(0,10));
 }
 
+//check if the last entry is operator
 noPreviousOperator = function(value){
     return !(isOperator(value.substring(value.length-1,value.length)))
 }
@@ -120,8 +161,6 @@ noPreviousOperator = function(value){
 evaluate = function (prevEntry,currentEntry,temp,operation){
     var secondEntry = currentEntry.substring(temp+1,currentEntry.length);
     result = operate(prevEntry,secondEntry,operation);
-    console.log("evaluate: " , result)
-    console.log("evaluate string: " , result.toString())
     return result.toString();
 }
 
@@ -130,4 +169,10 @@ evaluate = function (prevEntry,currentEntry,temp,operation){
 withinRange = function (val){
     return (val.length <10)    
 }
+
+second = function(temp,currentEntry){
+   return currentEntry.substring(temp+1,currentEntry.length);
+}
+
+
 
